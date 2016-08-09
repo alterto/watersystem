@@ -1,0 +1,27 @@
+// function.cpp: implementation of the function class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "DataCollectPro.h"
+#include "function.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+function::function()
+{
+
+}
+
+function::~function()
+{
+
+}
