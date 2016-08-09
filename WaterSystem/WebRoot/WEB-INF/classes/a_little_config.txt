@@ -1,0 +1,5 @@
+jdbcUrl = jdbc:sqlserver://192.168.1.117:1433;DatabaseName=WaterSystem
+user = sa
+password = Qdhzsl123
+drivier = com.microsoft.sqlserver.jdbc.SQLServerDriver
+devMode = true

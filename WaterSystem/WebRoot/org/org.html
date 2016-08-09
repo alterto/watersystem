@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Basic TreeGrid - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="/js/easyui/themes/IconExtension.css">
+	<link rel="stylesheet" type="text/css" href="/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/js/easyui/demo.css">
+	<script type="text/javascript" src="/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+	
+	<script>
+	var url;
+	function add(){
+		$('#dlg').dialog('open').dialog('setTitle','新增行政区');
+		$('#fm').form('clear');
+		url = '/org/save';
+	}
+	function edit(){
+		//var t = $('#parentcode').combotree('tree');	// get the tree object
+		//var row = t.tree('reload');		// get selected node
+		var row = $('#dt').treegrid('getSelected');
+		if (row){
+			$('#dlg').dialog('open').dialog('setTitle','编辑角色');
+			var cust_row = {'org.OrgCode':row.OrgCode,'org.OrgName':row.OrgName,
+					'org.OrgGrade':row.OrgGrade,
+					'org.Remark':row.Remark};
+			$('#fm').form('load',cust_row);
+			url = '/org/save?OrgID='+row.OrgID;
+		}else{
+			$.messager.alert('警告','请选择要修改的行政区划!','warning');
+		}
+	}
+	function remove(){
+		var row = $('#dt').treegrid('getSelected');
+		if (row){
+			$.messager.confirm('Confirm','您确定要删除当前选中行政区划?',function(r){
+				$.post('/org/remove',{"id":row.OrgID},function(result){
+					if (result.success){
+						$('#dt').treegrid('reload');	// reload the user data
+					} else {
+						$.messager.show({	// show error message
+							title: '错误',
+							msg: result.msg
+						});
+					}
+				});
+			});
+			}else{
+				$.messager.alert('警告','请选择要修改的行政区划!','warning');
+			}
+		}
+	
+	function save(){
+		$('#fm').form('submit',{
+			url: url,
+			onSubmit: function(){
+				return $(this).form('validate');
+			},
+			success: function(result){
+				var result = eval('('+result+')');
+				if (result.success){
+					//var t = $('#parentcode').combotree('tree');	// get the tree object
+					//var row = t.tree('getSelected');		// get selected node
+					//alert(row.id);
+					$('#dlg').dialog('close');		// close the dialog
+					$('#dt').treegrid('reload');	// reload the user data
+				} else {
+					$.messager.show({
+						title: '错误',
+						msg: result.msg
+					});
+				}
+			}
+		});
+	}
+	</script>
+	
+	<style type="text/css">
+		#fm{
+			margin:0;
+			padding:10px 30px;
+		}
+		.ftitle{
+			font-size:14px;
+			font-weight:bold;
+			color:#666;
+			padding:5px 0;
+			margin-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		.fitem{
+			margin-bottom:5px;
+		}
+		.fitem label{
+			display:inline-block;
+			width:80px;
+		}
+	</style>
+</head>
+<body>
+	<table id="dt" title="行政区划" class="easyui-treegrid" style="width:700px;height:250px"
+			toolbar="#toolbar"
+			data-options="
+				url: '/org/loaddata',
+				rownumbers: true,
+				idField: 'OrgCode',
+				treeField: 'OrgName',
+				fit: true,
+				fitColumns: true
+			">
+		<thead>
+			<tr>
+				<th hidden data-options="field:'OrgID'" width="50">行政区ID</th>
+				<th data-options="field:'OrgName'" width="50">行政区名称</th>
+				<th data-options="field:'OrgCode'" width="50">行政区编码</th>
+				<th data-options="field:'OrgGrade'" width="50">行政区级别</th>
+				<th data-options="field:'Remark'" width="50">行政区概述</th>
+			</tr>
+		</thead>
+	</table>
+	
+	<div id="toolbar">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="add()">添加</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+	</div>
+	
+	<div id="dlg" class="easyui-dialog" style="width:400px;height:300px;padding:10px 20px"
+			closed="true" buttons="#dlg-buttons">
+		<div class="ftitle">行政区信息</div>
+		<form id="fm" method="post" novalidate>
+			<div class="fitem">
+				<label>行政区代码:</label>
+				<input name="org.OrgCode" class="easyui-validatebox" required="true">
+			</div>
+			<div class="fitem">
+				<label>行政区名称:</label>
+				<input name="org.OrgName" class="easyui-validatebox" required="true">
+			</div>
+			<div class="fitem">
+				<label>行政区概述:</label>
+				<input name="org.Remark">
+			</div>
+		</form>
+	</div>
+	
+	<div id="dlg-buttons">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+	</div>
+</body>
+</html>

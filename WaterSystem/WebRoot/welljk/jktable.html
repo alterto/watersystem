@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/demo.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/IconExtension.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<table class="easyui-datagrid" title="监控报表"
+			data-options="border:1,fit:true,singleSelect:true,url:'\welljk\jktable',method:'post'"
+			iconCls="icon-application_side_list"
+			>
+		<thead>
+			<tr>
+				<th data-options="field:'WellID',align:'center',width:80">机井编码</th>
+				<th data-options="field:'CollectTime',align:'center',width:100">机井名称</th>
+				<th data-options="field:'UserNo',align:'center',width:80">用户号</th>
+				<th data-options="field:'UseWt',align:'center',width:100">当前用水量</th>
+				<th data-options="field:'LeftWt',align:'center',width:100">剩余水量</th>
+				<th data-options="field:'CurWtBase',align:'center',width:100">当前水表底数</th>
+				<th data-options="field:'OpenState',align:'center',width:80">开关机状态</th>
+				<th data-options="field:'DoolState',align:'center',width:80">箱门状态</th>
+				<th data-options="field:'NetState',align:'center',width:80">网络状态</th>
+			</tr>
+		</thead>
+	</table>
+</body>
+</html>
