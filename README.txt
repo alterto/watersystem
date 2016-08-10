@@ -1,1 +1,2 @@
-WaterSystem
+DataCollectPro：机电井信息化前置机采集系统
+WaterSystem:机电井信息化WEB APP
